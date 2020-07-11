@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h1>Dice Role Game By: Waqas Shaukat</h1>
+        <div id="left" class="diceContainer">
+            <div class="imgContainer" id="diceLeft">
+                <img src="./img/dice6.png" alt="">
+            </div>
+        </div>
+        <div id="right" class="diceContainer">
+            <div class="imgContainer" id="diceRight">
+                <img src="./img/dice6.png" alt="">
+            </div>
+        </div>
+        <p id="result"></p>
+    </div>
+</body>
+<script src="jquery-3.4.1.min.js"></script>
+<script>
+    alert('Rules For Playing:\n1. First turn is of blue. \n2. Second tern is for green. \n3. Click on the dice to throw. \n4.Refresh for playing again. \n Press OK if you accept.')
+    $('#container').hide().show(1500).slideUp(500).slideDown(500);
+    
+    // var collection = [{imag:"./img/dice1.png",val:1},{imag:"./img/dice2.png",val:2}, {imag:"./img/dice3.png",val:3}, {imag:"./img/dice4.png",val:4}, {imag:"./img/dice5.png",val:5}, {imag:"./img/dice6.png",val:6} ];
+        var collection = ["./img/dice1.png","./img/dice2.png","./img/dice3.png","./img/dice4.png","./img/dice5.png","./img/dice6.png"]
+    // var sorc = collection[1].image;
+    var points = new Array(2);
+    var turn = 0; 
+    var pI = -1;   
+
+    $('img').click(function(){
+        pI++; 
+        var count = 0;
+        var that = this;
+        var indx;  
+        var intrvl = setInterval(function(){
+            
+            if(count<15){
+                 indx = Math.floor(Math.random()*6);
+                console.log(indx)
+                var sorc = collection[indx];
+                $(that).attr("src",sorc);
+                count++;
+            } else{
+                clearInterval(intrvl);
+                turn++;
+                if(turn==2)
+                {
+                    checkForWin();
+                }
+                
+            }
+        pI = pI%2; 
+        points[pI] = indx; 
+        },300)
+    });
+function checkForWin()
+{
+    if(points[0]>points[1])
+        {
+        $('p').html("Blue Wins");
+        var counter = 0; 
+        var blnk = setInterval(function(){
+            if(counter < 15)
+            {
+                if((counter%2)==0)
+                {
+                $('#left').css("background-color","slateblue");
+                } else
+                {
+                $('#left').css("background-color","white")
+                }
+            counter++;
+            }else
+            {
+                clearInterval(blnk);
+            }
+        },200);
+        
+        }
+        else if(points[0]<points[1])
+        {
+        $('p').html("Green Wins")
+        var counter=0; 
+        var blnk = setInterval(function(){
+            if(counter < 15)
+            {
+                if((counter%2)==0)
+                {
+                $('#right').css("background-color","yellowgreen");
+                } else
+                {
+                $('#right').css("background-color","white")
+                }
+            counter++;
+            }else
+            {
+                clearInterval(blnk);
+            }
+        },200);
+        }
+        else
+        {
+            $('p').html("Draw")
+        }
+}
+    
+</script>
+</html>
